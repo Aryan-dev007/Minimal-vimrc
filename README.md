@@ -7,3 +7,4 @@ Load it with ----->
 vim -u /path/to/thisvimrc/minimal.vimrc
 
 Updated Folding, better syntax highlighting, colorscheme for terminal users see line 232 in .vimrc.
+Check releases for changes.
