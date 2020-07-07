@@ -20,6 +20,18 @@ set smartcase
 set guifont=Monaco:h12
 set confirm
 set path+=**
+set backspace=indent,eol,start
+execute "set <M-j>=\ej"
+"Use of alt+j !! wooh! finally "How?
+"Open your terminal and type "sed -n l" or "cat"
+"press the key combination you want to map i got "^[j"
+"replace "^[" with "\e" because that's just escape character.
+"Then do something like this
+execute "set <M-j>=\ej"
+"map your key as you want them to like "nnoremap <M-j> foo(any method)"
+"I mapped it for compiling and execution of file
+
+
 
 "set noshowmode
 set incsearch
@@ -45,7 +57,7 @@ augroup remember_folds
 	  autocmd BufWinEnter * silent! loadview
 augroup END
 
-	  
+
 
 
 "Setting the same clipboard for Vim and System.
@@ -96,7 +108,7 @@ endif
 let g:netrw_banner=0             " disable annoying banner
 let g:netrw_browse_split=4       " open in prior windows
 let g:netrw_liststyle=3          " Tree view
-let g:netrw_altv=1               " open splits to the right 
+let g:netrw_altv=1               " open splits to the right
 let g:netrw_list_hide=netrw_gitignore#Hide()
 let g:netrw_list_hide.=',\(|\s\s\)\zs\.\S\+'
 
@@ -140,12 +152,13 @@ inoremap <C-e> <C-o>$
 inoremap <C-a> <C-o>0
 
 
-"Press F2 to execute javascript files.
-autocmd filetype javascript nnoremap <buffer><F2> :w<CR>:!clear;node %<CR>
+"Press Alt-j to execute javascript files.
+autocmd filetype javascript nnoremap <buffer> <M-j>  :w<CR>:!clear;node %<CR>
 
-"Press F2 to compile and execute c and cpp files.
-autocmd FileType c nnoremap <buffer> <F2> :w<CR>:!gcc -o %< % && ./%< <CR>
-autocmd FileType cpp nnoremap <buffer> <F2> :w<CR>:!g++ -o %< % && ./%< <CR>
+"Press Alt-j to compile and execute c and cpp files.
+au FileType c,cpp nnoremap <buffer> <M-j> :w<CR> :make %<<CR> :term ./%<<CR>
+"if your it shows some message instead of your result do :copen to check your errors
+
 
 "This is for c and cpp
 autocmd FileType c,cpp :set cindent
@@ -155,14 +168,16 @@ autocmd FileType c,cpp :set expandtab
 "Reload .vimrc when changes are made.
 autocmd bufwritepost .vimrc source $MYVIMRC
 
-"<F2> to run python files"
-autocmd FileType python nmap <F2> :w<CR>:!clear;python3 %<CR>
+" Alt-j  to run python files"
+autocmd FileType python nmap <M-j> :w<CR>:!clear;python3 %<CR>
 
 "shift width and tab stop settings "
 autocmd FileType typescript, vue, yaml :set sw=2 ts=2
 
-"removing trailing whitspaces
-:nnoremap <silent> <F5> :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl<Bar> :unlet _s <CR>
+"Automatically remove all trailing whitespaces on saving file.
+autocmd BufWritePre * :%s/\s\+$//e
+
+
 "===================================================================================================="
 
 "=================================================================================================="
@@ -292,7 +307,7 @@ augroup END
 		hi Typedef ctermfg=214 ctermbg=NONE cterm=NONE
 		hi Underlined ctermfg=109 ctermbg=NONE cterm=underline
 		hi CursorIM ctermfg=NONE ctermbg=NONE cterm=reverse
-		hi LineNr ctermfg=green ctermbg=NONE  
+		hi LineNr ctermfg=green ctermbg=NONE
 		hi statusline ctermfg=black ctermbg=green
 
 		hi Comment cterm=NONE
@@ -362,8 +377,6 @@ augroup END
 
 	"First set complier using :complier
 	"Use :make command for compiling or running the program.
-	"Use :cope to see error in seperate window 
-	"Awesome is'nt it!!!!!!!
-
-
-
+	"Use :cope to see error in seperate window aka QuickFix Window
+	"Awesome isn't it!!!!!!!
+	"But now you don't need to do all this just press Alt+j and you're good to go
