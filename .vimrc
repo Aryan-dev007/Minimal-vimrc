@@ -157,6 +157,7 @@ autocmd filetype javascript nnoremap <buffer> <M-j>  :w<CR>:!clear;node %<CR>
 
 "Press Alt-j to compile and execute c and cpp files.
 au FileType c,cpp nnoremap <buffer> <M-j> :w<CR> :make %<<CR> :term ./%<<CR>
+"if your it shows some message instead of your result do :copen to check your errors
 
 
 "This is for c and cpp
@@ -376,5 +377,6 @@ augroup END
 
 	"First set complier using :complier
 	"Use :make command for compiling or running the program.
-	"Use :cope to see error in seperate window
+	"Use :cope to see error in seperate window aka QuickFix Window
 	"Awesome isn't it!!!!!!!
+	"But now you don't need to do all this just press Alt+j and you're good to go
