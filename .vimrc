@@ -150,14 +150,42 @@ map <C-l> <C-W>l
 "Remapped ctrl+e to go to the end of the line in INSERT mode and ctrl+a to start of the line.
 inoremap <C-e> <C-o>$
 inoremap <C-a> <C-o>0
+if filereadable("Makefile")
+        set makeprg=make\ -s
+    else
+        autocmd FileType scala      set makeprg=scalac\ %
+        autocmd FileType haskell    set makeprg=ghc\ -o\ %<\ %
+        autocmd FileType javascript set makeprg=echo\ OK
+        autocmd FileType python     set makeprg=python3\ %
+        autocmd FileType perl       set makeprg=echo\ OK
+        autocmd FileType c          set makeprg=gcc\ -o\ %<\ %
+        autocmd FileType cpp        set makeprg=g++\ --std=c++17\ -o\ %<\ %
+    endif
 
+    autocmd FileType c          nmap <F4> <ESC>:w<CR><ESC>:term ./%<<CR>
+    autocmd FileType c          imap <F4> <ESC>:w<CR><ESC>:term ./%<<CR>
+    autocmd FileType cpp        nmap <F4> <ESC>:w<CR><ESC>:term ./%<<CR>
+    autocmd FileType cpp        imap <F4> <ESC>:w<CR><ESC>:term ./%<<CR>
+    autocmd FileType java       nmap <F4> <ESC>:w<CR><ESC>:!java %<<CR>
+    autocmd FileType java       imap <F4> <ESC>:w<CR><ESC>:!java %<<CR>
+    autocmd FileType scala      nmap <F4> <ESC>:w<CR><ESC>:!scala %<<CR>
+    autocmd FileType scala      imap <F4> <ESC>:w<CR><ESC>:!scala %<<CR>
+    autocmd FileType haskell    nmap <F4> <ESC>:w<CR><ESC>:!./%<<CR>
+    autocmd FileType haskell    imap <F4> <ESC>:w<CR><ESC>:!./%<<CR>
+    autocmd FileType python     nmap <F4> <ESC>:w<CR><ESC>:term python3 %<CR>
+    autocmd FileType python     imap <F4> <ESC>:w<CR><ESC>:term python3 %<CR>
+    autocmd FileType perl       nmap <F4> <ESC>:w<CR><ESC>:!perl %<CR>
+    autocmd FileType perl       imap <F4> <ESC>:w<CR><ESC>:!perl %<CR>
 
-"Press Alt-j to execute javascript files.
-autocmd filetype javascript nnoremap <buffer> <M-j>  :w<CR>:!clear;node %<CR>
+    imap <F3> <ESC>:w<CR><ESC>:make<CR>:cwindow<CR><CR>
+    nmap <F3> <ESC>:w<CR><ESC>:make<CR>:cwindow<CR><CR>
 
-"Press Alt-j to compile and execute c and cpp files.
-au FileType c,cpp nnoremap <buffer> <M-j> :w<CR> :make %<<CR> :term ./%<<CR>
-"if your it shows some message instead of your result do :copen to check your errors
+    imap <F2> <ESC>:w<CR><ESC>:silent make<CR>:call feedkeys("\<F4>")<CR>
+    nmap <F2> <ESC>:w<CR><ESC>:silent make<CR>:call feedkeys("\<F4>")<CR>
+
+    " F2 to compile and Run
+    " F4 for running only
+    " F3 for compiling
 
 
 "This is for c and cpp
@@ -165,14 +193,6 @@ autocmd FileType c,cpp :set cindent
 autocmd FileType c,cpp :setf c
 autocmd FileType c,cpp :set expandtab
 
-"Reload .vimrc when changes are made.
-autocmd bufwritepost .vimrc source $MYVIMRC
-
-" Alt-j  to run python files"
-autocmd FileType python nmap <M-j> :w<CR>:!clear;python3 %<CR>
-
-"shift width and tab stop settings "
-autocmd FileType typescript, vue, yaml :set sw=2 ts=2
 
 "Automatically remove all trailing whitespaces on saving file.
 autocmd BufWritePre * :%s/\s\+$//e
