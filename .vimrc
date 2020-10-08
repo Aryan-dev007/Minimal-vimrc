@@ -153,6 +153,7 @@ inoremap <C-a> <C-o>0
 if filereadable("Makefile")
         set makeprg=make\ -s
     else
+        autocmd FileType java       set makeprg=javac\ %
         autocmd FileType scala      set makeprg=scalac\ %
         autocmd FileType haskell    set makeprg=ghc\ -o\ %<\ %
         autocmd FileType javascript set makeprg=echo\ OK
